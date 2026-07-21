@@ -21,20 +21,11 @@ Both servers are declared as listeners. They start with the Ballerina package li
 - Docker
 - A Slack app with a bot token for a dedicated test workspace
 
-The MCP-enabled connector versions used by this demo are feature-branch builds and are not yet available from Ballerina Central. `ballerina/mcp:1.1.1` is also currently unreleased, so publish it locally first.
+The MCP-enabled connector versions used by this demo are feature-branch builds and are not yet available from Ballerina Central. The released `ballerina/mcp:1.1.0` package is resolved directly from Ballerina Central.
 
 ## Publish the dependencies locally
 
-### 1. MCP module
-
-```bash
-git clone https://github.com/ballerina-platform/module-ballerina-mcp.git
-cd module-ballerina-mcp
-./gradlew clean build -PpublishToLocalCentral=true
-cd ..
-```
-
-### 2. PostgreSQL connector with MCP
+### 1. PostgreSQL connector with MCP
 
 ```bash
 git clone --branch feat/declarative-postgres-mcp \
@@ -55,7 +46,7 @@ bal test --offline --tests 'postgresql.mcp:*'
 cd ../..
 ```
 
-### 3. Slack connector with MCP
+### 2. Slack connector with MCP
 
 ```bash
 git clone --branch feat/slack-mcp \
