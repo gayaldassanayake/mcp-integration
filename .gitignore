@@ -1,0 +1,6 @@
+.DS_Store
+**/.DS_Store
+**/target/
+**/generated/
+**/Config.toml
+**/trace_enabled.bal

@@ -1,0 +1,3 @@
+- org: gayaltest
+  project: mcp-integration
+  local: true

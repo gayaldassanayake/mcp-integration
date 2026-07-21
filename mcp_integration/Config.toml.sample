@@ -1,0 +1,15 @@
+# Copy this file to Config.toml and replace the Slack token.
+# Never commit Config.toml.
+
+slackToken = "xoxb-replace-with-a-dedicated-test-workspace-token"
+slackMcpPort = 8081
+slackMcpPath = "/slack-mcp"
+slackReadOnly = true
+
+postgresHost = "localhost"
+postgresPort = 5432
+postgresUsername = "postgres"
+postgresPassword = "mcp_demo_password"
+postgresDatabase = "postgres"
+postgresMcpPort = 8080
+postgresMcpPath = "/postgres-mcp"
