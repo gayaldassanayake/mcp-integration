@@ -4,3 +4,6 @@
 **/generated/
 **/Config.toml
 **/trace_enabled.bal
+
+local-run.log
+k3d-port-forward.log

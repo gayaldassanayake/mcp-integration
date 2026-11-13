@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mcp-integration
+  namespace: mcp-spike
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mcp-integration
+  template:
+    metadata:
+      labels:
+        app: mcp-integration
+    spec:
+      containers:
+        - name: mcp-integration
+          image: host.k3d.internal:10082/mcp-spike-integration:latest
+          imagePullPolicy: Always
+          env:
+            - name: BAL_CONFIG_VAR_POSTGRESHOST
+              value: postgres.mcp-spike.svc.cluster.local
+            - name: BAL_CONFIG_VAR_POSTGRESPORT
+              value: "5432"
+            - name: BAL_CONFIG_VAR_POSTGRESPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres
+                  key: password
+            - name: BAL_CONFIG_VAR_POSTGRESMCPPORT
+              value: "8080"
+          ports:
+            - containerPort: 8080
+          readinessProbe:
+            tcpSocket:
+              port: 8080
+            periodSeconds: 5
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
+            limits:
+              memory: 512Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mcp-integration
+  namespace: mcp-spike
+spec:
+  selector:
+    app: mcp-integration
+  ports:
+    - port: 8080
+      targetPort: 8080

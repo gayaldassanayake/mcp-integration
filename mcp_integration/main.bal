@@ -1,20 +1,28 @@
+import ballerina/lang.runtime;
 import ballerinax/postgresql.driver as _;
-import ballerinax/postgresql.mcp as pgmcp;
-import ballerinax/slack.mcp as slackmcp;
+import gayaltest/mcp_integration.pgmcp;
+import gayaltest/mcp_integration.slackmcp;
 
 listener pgmcp:PostgresMcpListener postgresqlMcpListener = new (
     {
         host: postgresHost,
         port: postgresPort,
         username: postgresUsername,
-        password: string `${postgresPassword}`,
+        password: postgresPassword,
         database: postgresDatabase
     },
     {readOnly: true},
     {port: postgresMcpPort, path: postgresMcpPath}
 );
-listener slackmcp:SlackMcpListener slackMcpListener = new (
-    {token: string `${slackToken}`},
-    {readOnly: slackReadOnly, allowedChannelIds: []},
-    {port: slackMcpPort, path: slackMcpPath}
-);
+
+function init() returns error? {
+    if slackToken == "" {
+        return;
+    }
+    slackmcp:SlackMcpListener slackMcpListener = check new (
+        {token: slackToken},
+        {readOnly: slackReadOnly, allowedChannelIds: []},
+        {port: slackMcpPort, path: slackMcpPath}
+    );
+    runtime:registerListener(slackMcpListener);
+}
